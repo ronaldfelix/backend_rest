@@ -55,4 +55,14 @@ public class MenuController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<MenuModel>> searchMenus(@RequestParam("query") String query) {
+        List<MenuModel> menus = menuService.searchMenus(query);
+        if (menus != null && !menus.isEmpty()) {
+            return ResponseEntity.ok(menus);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
 }

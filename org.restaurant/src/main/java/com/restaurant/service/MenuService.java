@@ -53,4 +53,8 @@ public class MenuService {
         }
         return false;
     }
+
+    public List<MenuModel> searchMenus(String query) {
+        return menuRepository.findTop5ByNombreContainingIgnoreCase(query);
+    }
 }
