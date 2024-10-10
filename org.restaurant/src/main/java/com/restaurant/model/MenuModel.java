@@ -25,6 +25,9 @@ public class MenuModel {
     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private double precio;
 
+    @Column(nullable = false, length = 32)
+    private String imagen_url;
+
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)
     private CategoriaComidaModel categoria;

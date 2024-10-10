@@ -16,6 +16,18 @@ public class MozoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idMozo;
 
+    @Column(nullable = false, length = 32)
+    private String nombre;
+
+    @Column(nullable = false, length = 32)
+    private String email;
+
+    @Column(nullable = false, length = 32)
+    private String clave;
+    
+    @Column(nullable = false, length = 10)
+    private String telefono;
+
     @ManyToOne
     @JoinColumn(name = "id_orden", nullable = false)
     private OrdenModel orden;
