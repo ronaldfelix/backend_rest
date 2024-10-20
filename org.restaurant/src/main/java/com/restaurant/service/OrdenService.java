@@ -1,10 +1,15 @@
 package com.restaurant.service;
 
+import com.restaurant.dto.CategoriaConPlatillosDTO;
+import com.restaurant.dto.OrdenInfoDTO;
+import com.restaurant.dto.PlatilloInfoDTO;
 import com.restaurant.model.OrdenModel;
 import com.restaurant.repository.OrdenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,5 +56,19 @@ public class OrdenService {
             return true;
         }
         return false;
+    }
+
+    // Obtener historial
+    public List<OrdenInfoDTO> getHistorialByEmail(String email) {
+        return ordenRepository.findHistorialByEmail(email);
+    }
+
+    // filtrar por fecha y categoria
+    public CategoriaConPlatillosDTO getPlatillosByCategoriaAndDate(LocalDateTime fechaInicio, LocalDateTime fechaFin, String categoria) {
+        // Obtener los platillos de la categoría y su cantidad de pedidos
+        List<PlatilloInfoDTO> platillos = ordenRepository.findPlatillosByCategoriaAndDateRange(fechaInicio, fechaFin, categoria);
+
+        // Crear un objeto DTO para devolver la categoría y la lista de platillos
+        return new CategoriaConPlatillosDTO(categoria, platillos);
     }
 }

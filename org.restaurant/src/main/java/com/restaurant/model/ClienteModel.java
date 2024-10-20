@@ -3,6 +3,8 @@ package com.restaurant.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,4 +29,7 @@ public class ClienteModel {
 
     @Column(nullable = false, length = 10)
     private String telefono;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<OrdenModel> ordenes;
 }

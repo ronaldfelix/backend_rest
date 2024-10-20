@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +25,9 @@ public class OrdenModel {
 
     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private double totalPago;
+
+    @OneToMany(mappedBy = "orden")
+    private List<DetalleOrdenModel> detalleOrdenes;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
