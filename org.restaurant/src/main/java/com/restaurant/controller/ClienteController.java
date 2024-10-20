@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ClienteController {
 
     @Autowired
@@ -53,6 +54,16 @@ public class ClienteController {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody ClienteModel cliente) {
+        ClienteModel clienteExistente = clienteService.findByEmailAndClave(cliente.getEmail(), cliente.getClave());
+        if (clienteExistente != null) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(401).body("Invalid email or password");
         }
     }
 }

@@ -53,4 +53,15 @@ public class ClienteService {
         }
         return false;
     }
+
+    // Logeo
+    public ClienteModel findByEmailAndClave(String email, String clave) {
+        List<ClienteModel> clientes = getAllClientes();
+        for (ClienteModel cliente : clientes) {
+            if (cliente.getEmail().equals(email) && cliente.getClave().equals(clave)) {
+                return cliente;
+            }
+        }
+        return null;
+    }
 }
