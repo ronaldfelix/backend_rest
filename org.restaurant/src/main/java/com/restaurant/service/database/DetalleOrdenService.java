@@ -1,7 +1,7 @@
-package com.restaurant.service;
+package com.restaurant.service.database;
 
 import com.restaurant.model.DetalleOrdenModel;
-import com.restaurant.repository.DetalleOrdenRepository;
+import com.restaurant.repository.database.DetalleOrdenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

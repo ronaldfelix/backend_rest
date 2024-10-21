@@ -1,7 +1,7 @@
-package com.restaurant.controller;
+package com.restaurant.controller.database;
 
 import com.restaurant.model.DetalleOrdenModel;
-import com.restaurant.service.DetalleOrdenService;
+import com.restaurant.service.database.DetalleOrdenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

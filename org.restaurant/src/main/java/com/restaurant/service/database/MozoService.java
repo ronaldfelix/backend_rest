@@ -1,7 +1,7 @@
-package com.restaurant.service;
+package com.restaurant.service.database;
 
 import com.restaurant.model.MozoModel;
-import com.restaurant.repository.MozoRepository;
+import com.restaurant.repository.database.MozoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

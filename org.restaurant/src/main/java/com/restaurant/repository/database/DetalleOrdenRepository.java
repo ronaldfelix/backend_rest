@@ -1,4 +1,4 @@
-package com.restaurant.repository;
+package com.restaurant.repository.database;
 
 import com.restaurant.model.DetalleOrdenModel;
 import org.springframework.data.jpa.repository.JpaRepository;

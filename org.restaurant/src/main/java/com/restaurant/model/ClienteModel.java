@@ -1,5 +1,6 @@
 package com.restaurant.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,7 @@ public class ClienteModel {
     @Column(nullable = false, length = 10)
     private String telefono;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<OrdenModel> ordenes;
 }

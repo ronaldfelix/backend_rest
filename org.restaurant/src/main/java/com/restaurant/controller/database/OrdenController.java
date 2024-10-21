@@ -1,16 +1,11 @@
-package com.restaurant.controller;
+package com.restaurant.controller.database;
 
-import com.restaurant.dto.CategoriaConPlatillosDTO;
-import com.restaurant.dto.OrdenInfoDTO;
 import com.restaurant.model.OrdenModel;
-import com.restaurant.service.OrdenService;
+import com.restaurant.service.database.OrdenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -60,28 +55,5 @@ public class OrdenController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    // Ruta obtener historial
-    @GetMapping("/cliente/email/{email}/historial")
-    public ResponseEntity<List<OrdenInfoDTO>> getHistorialByEmail(@PathVariable("email") String email) {
-        List<OrdenInfoDTO> historial = ordenService.getHistorialByEmail(email);
-        return ResponseEntity.ok(historial);
-    }
-
-    //Ruta filtro por categoria y fecha
-    @GetMapping("/platillos/categoria")
-    public ResponseEntity<CategoriaConPlatillosDTO> getPlatillosByCategoriaAndDate(
-            @RequestParam("fechaInicio") String fechaInicio,
-            @RequestParam("fechaFin") String fechaFin,
-            @RequestParam("categoria") String categoria) {
-
-        // Convertimos las fechas de tipo String a LocalDateTime
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime inicio = LocalDateTime.parse(fechaInicio + " 00:00:00", formatter);
-        LocalDateTime fin = LocalDateTime.parse(fechaFin + " 23:59:59", formatter);
-
-        CategoriaConPlatillosDTO resultado = ordenService.getPlatillosByCategoriaAndDate(inicio, fin, categoria);
-        return ResponseEntity.ok(resultado);
     }
 }

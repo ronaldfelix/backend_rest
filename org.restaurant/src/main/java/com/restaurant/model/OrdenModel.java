@@ -1,5 +1,6 @@
 package com.restaurant.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class OrdenModel {
     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private double totalPago;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "orden")
     private List<DetalleOrdenModel> detalleOrdenes;
 

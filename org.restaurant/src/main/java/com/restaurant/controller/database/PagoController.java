@@ -1,7 +1,7 @@
-package com.restaurant.controller;
+package com.restaurant.controller.database;
 
 import com.restaurant.model.PagoModel;
-import com.restaurant.service.PagoService;
+import com.restaurant.service.database.PagoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

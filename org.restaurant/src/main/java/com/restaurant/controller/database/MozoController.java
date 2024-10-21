@@ -1,7 +1,7 @@
-package com.restaurant.controller;
+package com.restaurant.controller.database;
 
 import com.restaurant.model.MozoModel;
-import com.restaurant.service.MozoService;
+import com.restaurant.service.database.MozoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
