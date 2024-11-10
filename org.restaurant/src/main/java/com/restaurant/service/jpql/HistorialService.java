@@ -1,6 +1,5 @@
 package com.restaurant.service.jpql;
 
-import com.restaurant.dto.OrdenInfoDTO;
 import com.restaurant.repository.jpql.HistorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ public class HistorialService {
     @Autowired
     private HistorialRepository historialRepository;
 
-    public List<OrdenInfoDTO> getHistorialByEmail(String email) {
+    public List<Object[]> getHistorialByEmail(String email) {
         return historialRepository.findHistorialByEmail(email);
     }
 }
