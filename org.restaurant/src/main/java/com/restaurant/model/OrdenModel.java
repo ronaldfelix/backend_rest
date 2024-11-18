@@ -34,4 +34,8 @@ public class OrdenModel {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date fecha;
+
+    @Column(nullable = false)
+    private String estado; // Ejemplo: "Pendiente", "Preparada", "Descartada"
+
 }

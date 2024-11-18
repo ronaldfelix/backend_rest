@@ -31,26 +31,32 @@ public class OrdenController {
         }
     }
 
+    @GetMapping("/estado/{estado}")
+    public List<OrdenModel> getOrdenesPorEstado(@PathVariable("estado") String estado) {
+        return ordenService.getOrdenesPorEstado(estado);
+    }
+
     @PostMapping
     public ResponseEntity<OrdenModel> createOrden(@RequestBody OrdenModel orden) {
+        orden.setEstado("Pendiente"); // Estado inicial
         OrdenModel nuevaOrden = ordenService.createOrden(orden);
         return ResponseEntity.ok(nuevaOrden);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OrdenModel> updateOrden(@PathVariable("id") int id, @RequestBody OrdenModel orden) {
-        OrdenModel ordenActualizada = ordenService.updateOrden(id, orden);
-        if (ordenActualizada != null) {
-            return ResponseEntity.ok(ordenActualizada);
+    @PutMapping("/{id}/preparar")
+    public ResponseEntity<Void> prepararOrden(@PathVariable int id) {
+        boolean actualizado = ordenService.cambiarEstadoOrden(id, "Preparada");
+        if (actualizado) {
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrden(@PathVariable("id") int id) {
-        boolean eliminado = ordenService.deleteOrden(id);
-        if (eliminado) {
+    @PutMapping("/{id}/descartar")
+    public ResponseEntity<Void> descartarOrden(@PathVariable int id) {
+        boolean actualizado = ordenService.cambiarEstadoOrden(id, "Descartada");
+        if (actualizado) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
