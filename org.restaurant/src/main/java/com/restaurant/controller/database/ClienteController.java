@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -58,12 +61,18 @@ public class ClienteController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody ClienteModel cliente) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody ClienteModel cliente) {
         ClienteModel clienteExistente = clienteService.findByEmailAndClave(cliente.getEmail(), cliente.getClave());
         if (clienteExistente != null) {
-            return ResponseEntity.ok("Login successful");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login successful");
+            response.put("nombre", clienteExistente.getNombre());
+            response.put("email", clienteExistente.getEmail());
+            response.put("telefono", clienteExistente.getTelefono());
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(401).body("Invalid email or password");
+            return ResponseEntity.status(401).body(Collections.singletonMap("message", "Invalid email or password"));
         }
     }
+
 }
