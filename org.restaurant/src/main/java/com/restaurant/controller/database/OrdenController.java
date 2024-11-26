@@ -30,12 +30,16 @@ public class OrdenController {
             return ResponseEntity.notFound().build();
         }
     }
-
     @PostMapping
     public ResponseEntity<OrdenModel> createOrden(@RequestBody OrdenModel orden) {
+        if (orden.getCliente() == null || orden.getDetalleOrdenes().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         OrdenModel nuevaOrden = ordenService.createOrden(orden);
         return ResponseEntity.ok(nuevaOrden);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<OrdenModel> updateOrden(@PathVariable("id") int id, @RequestBody OrdenModel orden) {
@@ -56,4 +60,5 @@ public class OrdenController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }
