@@ -10,17 +10,18 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reporte-ventas")
+@RequestMapping("/api/reportes")
 @CrossOrigin(origins = "http://localhost:5173")
 public class ReporteVentasController {
 
     @Autowired
     private ReporteVentasService reporteVentasService;
 
-    @GetMapping("/intervalo")
-    public List<ReporteVentasDTO> getReporteVentas(
-            @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaInicio,
-            @RequestParam("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaFin) {
-        return reporteVentasService.getReporteVentas(fechaInicio, fechaFin);
+    @GetMapping("/ventas")
+    public List<ReporteVentasDTO> obtenerReporteVentas(
+            @RequestParam("fechaInicio") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio,
+            @RequestParam("fechaFin") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin) {
+        return reporteVentasService.obtenerReporteVentas(fechaInicio, fechaFin);
     }
 }
+
