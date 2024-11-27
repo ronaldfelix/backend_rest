@@ -71,4 +71,41 @@ public class NiubizController {
         }
     }
 
+    // Endpoint para recibir la respuesta de Niubiz
+    @PostMapping("/response")
+    public ResponseEntity<Map<String, Object>> handleResponse(@RequestParam("id") String purchaseNumber, @RequestBody Map<String, Object> responseBody) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // Capturar toda la respuesta tal como llega
+            response.put("purchaseNumber", purchaseNumber);
+            response.put("responseBody", responseBody);
+
+            // Puedes agregar aquí alguna lógica para guardar o procesar los datos si lo necesitas
+            System.out.println("Respuesta completa recibida: " + responseBody);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            // Manejar errores de forma genérica
+            response.put("error", "Error al procesar la respuesta: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+
+    // Endpoint para manejar el tiempo de espera de una sesión
+    @GetMapping("/timeout")
+    public ResponseEntity<String> handleTimeout(@RequestParam("id") String purchaseNumber) {
+        try {
+            // Lógica para manejar la expiración del tiempo de espera
+            System.out.println("La sesión para PurchaseNumber " + purchaseNumber + " ha expirado.");
+
+            // Aquí podrías actualizar tu base de datos, por ejemplo:
+            // - Marcar el pedido como no pagado o pendiente de revisión
+
+            return ResponseEntity.ok("Tiempo de espera manejado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al manejar el tiempo de espera: " + e.getMessage());
+        }
+    }
+
 }

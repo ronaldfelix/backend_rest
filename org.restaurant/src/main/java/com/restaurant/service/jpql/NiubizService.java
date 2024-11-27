@@ -102,7 +102,8 @@ public class NiubizService {
             try {
                 Map<String, Object> responseBody = objectMapper.readValue(response.getBody(), new TypeReference<>() {});
                 String sessionKey = (String) responseBody.get("sessionKey");
-                System.out.println("Token de sesión recibido: " + sessionKey);
+                Long expirationTime = (Long) responseBody.get("expirationTime");
+                System.out.println("Token de sesión recibido: " + sessionKey + ", Vigencia: " + expirationTime);
                 return sessionKey;
             } catch (JsonProcessingException e) {
                 throw new RuntimeException("Error al procesar la respuesta del token de sesión", e);
