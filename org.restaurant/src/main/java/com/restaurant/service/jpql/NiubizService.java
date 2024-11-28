@@ -30,6 +30,9 @@ public class NiubizService {
     @Value("${niubiz.credentials.password}")
     private String password;
 
+    private static final String AUTHORIZATION_URL = "https://apisandbox.vnforappstest.com/api.authorization/v3/authorization/ecommerce/{merchantId}";
+
+
     private final RestTemplate restTemplate;
 
     public NiubizService(RestTemplate restTemplate) {
@@ -113,43 +116,47 @@ public class NiubizService {
         }
     }
 
-    public Map<String, Object> generateAuthorizationToken(String accessToken, String sessionToken, double amount, String purchaseNumber) {
-        String authorizationUrl = "https://apisandbox.vnforappstest.com/api.authorization/v3/authorization/ecommerce/" + merchantId;
+    public Map<String, Object> generateAuthorizationToken(String accessToken, Map<String, Object> order) {
+        try {
+            // Merchant ID del comercio
+            String merchantId = "456879852"; // Cambia según tus datos de pruebas o producción.
 
-        // Headers de la solicitud
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken); // Enviar el accessToken como Bearer Token
-        headers.setContentType(MediaType.APPLICATION_JSON);
+            // Configurar headers
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", accessToken); // El token se envía directamente, sin el prefijo Bearer.
 
-        // Cuerpo de la solicitud
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("channel", "web");
-        requestBody.put("captureType", "manual");
-        requestBody.put("countable", true);
+            // Crear cuerpo de la solicitud
+            Map<String, Object> requestBody = Map.of(
+                    "channel", "web",
+                    "captureType", "manual",
+                    "countable", true,
+                    "order", order
+            );
 
-        Map<String, Object> orderDetails = new HashMap<>();
-        orderDetails.put("tokenId", sessionToken);
-        orderDetails.put("purchaseNumber", purchaseNumber);
-        orderDetails.put("amount", amount);
-        orderDetails.put("currency", "PEN");
-        requestBody.put("order", orderDetails);
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
-        // Enviar la solicitud HTTP
-        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(authorizationUrl, request, String.class);
+            // Enviar solicitud HTTP
+            ResponseEntity<Map> response = restTemplate.exchange(
+                    AUTHORIZATION_URL,
+                    HttpMethod.POST,
+                    request,
+                    Map.class,
+                    merchantId
+            );
 
-        // Validar la respuesta
-        if (response.getStatusCode() == HttpStatus.OK) {
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                return objectMapper.readValue(response.getBody(), new TypeReference<Map<String, Object>>() {});
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException("Error al procesar la respuesta del token de autorización", e);
+            // Verificar respuesta
+            if (response.getStatusCode() == HttpStatus.OK) {
+                System.out.println("Autorización exitosa: " + response.getBody());
+                return response.getBody();
+            } else {
+                throw new RuntimeException("Error en la autorización: " + response.getStatusCode());
             }
-        } else {
-            throw new RuntimeException("Error al generar el token de autorización: " + response.getBody());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al generar el Authorization Token: " + e.getMessage(), e);
         }
     }
+
 
 
 }
